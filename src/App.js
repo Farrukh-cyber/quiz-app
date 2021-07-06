@@ -1,42 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
+import { useSelector } from "react-redux";
 import "./App.css";
 function App() {
-  const [questions, setQuestions] = useState([
-    {
-      question: "HTML stands for __________",
-      options: [
-        "Hypertext markup langauge",
-        "Programming langauge",
-        "markup language",
-      ],
-      correctAns: "Hypertext markup langauge",
-    },
-    {
-      question: "CSS stands for __________",
-      options: [
-        "Cascading Style sheet",
-        "Programming langauge",
-        "markup language",
-      ],
-      correctAns: "Cascading Style sheet",
-    },
-    {
-      question: "HTML is programming language",
-      options: ["True", "False"],
-      correctAns: "False",
-    },
-  ]);
+  const state=useSelector((state)=>state);
   const [ind, setInd] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedValue, setSelectedValue] = useState("");
   const [showResult, setShowResult] = useState(false);
 
   function checkAnswer() {
-    let correctValue = questions[ind].correctAns;
+    let correctValue = state.questions[ind].correctAns;
     if (selectedValue == correctValue) {
       setScore(score + 1);
     }
-    if (questions.length == ind + 1) {
+    if (state.questions.length == ind + 1) {
       setShowResult(true);
     } else {
       setInd(ind + 1);
@@ -54,11 +31,11 @@ function App() {
                 className="p-3"
                 id="file"
                 value={score}
-                max={questions.length}
+                max={state.questions.length}
               ></progress>
-              <h3>{((score / questions.length) * 100).toFixed(2)} %</h3>
+              <h3>{((score / state.questions.length) * 100).toFixed(2)} %</h3>
               <h3>
-                {(score / questions.length) * 100 < 60 ? "Fail" : "Pass"}{" "}
+                {(score / state.questions.length) * 100 < 60 ? "Fail" : "Pass"}{" "}
               </h3>
             </div>
           ) : null}
@@ -68,15 +45,15 @@ function App() {
           <div className="container p-5 my-2 rounded shadow bg-dark text-white">
             <p className="fs-4">
               Question Number <span className="fs-1">{ind + 1}</span> of{" "}
-              {questions.length}
+              {state.questions.length}
             </p>
-            <h3>{questions[ind].question}</h3>
+            <h3>{state.questions[ind].question}</h3>
           </div>
         ) : null}
         {!showResult ? (
           <div className="container p-5 my-2 rounded shadow bg-secondary">
             <div className="row">
-              {questions[ind].options.map((e, i) => {
+              {state.questions[ind].options.map((e, i) => {
                 return (
                   <div key={i} className="col-md-4 py-2">
                     <button
